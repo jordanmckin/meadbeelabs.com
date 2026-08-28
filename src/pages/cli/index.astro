@@ -1,0 +1,179 @@
+---
+import ArchitectureDiagram from '../../components/ArchitectureDiagram.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="CLI Harness"
+  description="The Meadbee AI Harness is a local-first autonomous development environment built around director and worker agents, extensible tools, and long-running Wiggum loops."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">Flagship project / Agent system</p>
+        <h1 class="page-title">CLI Harness</h1>
+        <p class="page-lede">
+          A local-first autonomous AI development environment designed around director and
+          worker agents, extensible plugins, tool use, and long-running Wiggum loops.
+        </p>
+        <div class="button-row">
+          <a class="button primary" href="#architecture">View architecture</a>
+          <a class="button" href="#workflows">Supported workflows</a>
+          <a class="button muted" href="/downloads/#cli-harness">Download channel</a>
+        </div>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">System record</span>
+        <StatusBadge status="active" />
+        <p>
+          This overview stays deliberately conservative: it represents systems named in the
+          project brief and leaves implementation specifics to future verified documentation.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <dl class="container metric-row" aria-label="Harness characteristics">
+    <div class="metric"><dt>Operation</dt><dd>Local first</dd></div>
+    <div class="metric"><dt>Control</dt><dd>Director / worker</dd></div>
+    <div class="metric"><dt>Extension</dt><dd>Plugin based</dd></div>
+    <div class="metric"><dt>Loop mode</dt><dd>Wiggum</dd></div>
+  </dl>
+
+  <section id="architecture" class="section" aria-labelledby="architecture-title">
+    <div class="container split-layout">
+      <div class="sticky-copy">
+        <p class="section-index">01 / Architecture</p>
+        <h2 id="architecture-title">One director, many ways to work</h2>
+        <p>
+          The director coordinates work across specialized workers, plugins, and project tools.
+          Outputs feed an inspect-and-improve loop that can continue under human review.
+        </p>
+        <p>
+          This first diagram is static by design. Its component boundary leaves room for richer
+          run visualization later without putting client JavaScript into the foundation build.
+        </p>
+      </div>
+      <ArchitectureDiagram label="CLI/HARNESS · director-worker topology" />
+    </div>
+  </section>
+
+  <section id="features" class="section rule-top" aria-labelledby="features-title">
+    <div class="container">
+      <SectionHeading
+        headingId="features-title"
+        index="02 / Capabilities"
+        title="A system for directed autonomy"
+        description="The harness joins coordination, project-aware tooling, and iterative review without treating autonomy as a single opaque action."
+      />
+      <div class="feature-grid">
+        <article class="feature">
+          <span class="feature-number">CAP-01</span>
+          <h3>Director / worker agents</h3>
+          <p>A coordinating director can delegate focused work to specialized workers or agents.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">CAP-02</span>
+          <h3>Wiggum loops</h3>
+          <p>Long-running loops plan, create, inspect, improve, review, and continue.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">CAP-03</span>
+          <h3>Plugin system</h3>
+          <p>Project-specific capabilities can be introduced without making every workflow core.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">CAP-04</span>
+          <h3>Tool use</h3>
+          <p>Agents can be exposed to development and creative tools through controlled workflows.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">CAP-05</span>
+          <h3>Local models</h3>
+          <p>The project is oriented toward local AI experimentation and local-first operation.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">CAP-06</span>
+          <h3>Review systems</h3>
+          <p>Planning and inspection remain visible parts of the loop instead of hidden implementation detail.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="workflows" class="section rule-top" aria-labelledby="workflows-title">
+    <div class="container split-layout">
+      <div>
+        <p class="section-index">03 / Wiggum loop</p>
+        <h2 id="workflows-title">Work becomes a visible cycle</h2>
+        <p class="page-lede">
+          Wiggum loops are autonomous or semi-autonomous runs that repeatedly move through a
+          structured improvement cycle.
+        </p>
+      </div>
+      <ol class="workflow-list">
+        <li><div><strong>Plan</strong><span>Establish the next bounded objective.</span></div></li>
+        <li><div><strong>Create</strong><span>Produce code, media, scenes, or project artifacts.</span></div></li>
+        <li><div><strong>Inspect</strong><span>Read the result and collect concrete evidence.</span></div></li>
+        <li><div><strong>Improve</strong><span>Address the most useful next change.</span></div></li>
+        <li><div><strong>Review</strong><span>Evaluate quality, constraints, and direction.</span></div></li>
+        <li><div><strong>Continue</strong><span>Repeat while the run remains useful and authorized.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="plugins" class="section rule-top" aria-labelledby="plugins-title">
+    <div class="container">
+      <SectionHeading
+        headingId="plugins-title"
+        index="04 / Workflows & plugins"
+        title="Project-aware creative tooling"
+        description="The plugin boundary gives different kinds of work their own tools and review patterns. These descriptions name intended workflows, not unverified performance claims."
+      />
+      <div class="feature-grid">
+        <article class="feature">
+          <span class="feature-number">PLG-BLEND</span>
+          <h3>Blender</h3>
+          <p>Generate or manipulate scenes through an agent-directed Blender workflow.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">PLG-IMAGE</span>
+          <h3>Image generation</h3>
+          <p>Expose image-generation systems to iterative agent workflows and review.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">PLG-RENPY</span>
+          <h3>Ren'Py design</h3>
+          <p>Support visual-novel planning and project-specific creation workflows.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="media-title">
+    <div class="container">
+      <SectionHeading
+        headingId="media-title"
+        index="05 / Field media"
+        title="Real outputs will live here"
+        description="These explicit placeholders reserve space for future screenshots and run captures without presenting stock art as project evidence."
+      />
+      <div class="media-placeholder-grid">
+        <div class="media-placeholder" role="img" aria-label="Placeholder for CLI Harness run screenshot">
+          CLI run capture / pending verified media
+        </div>
+        <div>
+          <div class="media-placeholder small" role="img" aria-label="Placeholder for Blender workflow screenshot">
+            Blender workflow / pending
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="/downloads/#cli-harness">Open release channel</a>
+            <a class="button muted" href="/experiments/">See related experiments</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

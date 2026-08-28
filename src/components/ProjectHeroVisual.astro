@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  category: string;
+  workflow: string[];
+}
+
+const { title, category, workflow } = Astro.props;
+const initials = title
+  .split(/\s+/)
+  .map((word) => word[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+<figure class="project-hero-visual">
+  <figcaption>
+    <span>Project workflow</span>
+    <span>{category.replaceAll('-', ' ')}</span>
+  </figcaption>
+  <div class="project-signal" aria-hidden="true">
+    <span class="project-signal-ring outer"></span>
+    <span class="project-signal-ring inner"></span>
+    <span class="project-signal-core">{initials}</span>
+    <span class="project-signal-point point-a"></span>
+    <span class="project-signal-point point-b"></span>
+    <span class="project-signal-point point-c"></span>
+  </div>
+  <ol class="project-workflow">
+    {workflow.map((step, index) => (
+      <li>
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <strong>{step}</strong>
+      </li>
+    ))}
+  </ol>
+</figure>

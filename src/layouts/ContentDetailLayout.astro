@@ -1,0 +1,127 @@
+---
+import MetadataGrid from '../components/MetadataGrid.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import TagList from '../components/TagList.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface MetadataItem {
+  label: string;
+  value: string;
+}
+
+interface RecordLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  collectionLabel: string;
+  collectionPath: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  permanentId: string;
+  status: string;
+  placeholder?: boolean;
+  tags: string[];
+  metadata: MetadataItem[];
+  links?: RecordLink[];
+  image?: string;
+}
+
+const {
+  collectionLabel,
+  collectionPath,
+  eyebrow,
+  title,
+  description,
+  permanentId,
+  status,
+  placeholder = false,
+  tags,
+  metadata,
+  links = [],
+  image,
+} = Astro.props;
+const hasHeroVisual = Astro.slots.has('hero-visual');
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article>
+    <header class="detail-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href={collectionPath}>{collectionLabel}</a></li>
+            <li aria-current="page">{title}</li>
+          </ol>
+        </nav>
+
+        <div class="detail-hero-grid">
+          <div>
+            <p class="eyebrow">{eyebrow}</p>
+            <h1 class="detail-title">{title}</h1>
+            <p class="detail-lede">{description}</p>
+            <TagList tags={tags} />
+          </div>
+
+          <div class:list={['detail-hero-aside', { 'has-visual': hasHeroVisual }]}>
+            {hasHeroVisual && <slot name="hero-visual" />}
+            <aside class="record-panel" aria-label="Content record metadata">
+              <div class="record-panel-head">
+                <span class="mono-label">Permanent record</span>
+                <StatusBadge status={status} />
+              </div>
+              <code class="record-id">{permanentId}</code>
+              <MetadataGrid items={metadata} label="Content record metadata" />
+            </aside>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section detail-section" aria-label={`${title} content`}>
+      <div class="container detail-content-grid">
+        <div>
+          {placeholder && (
+            <aside class="placeholder-notice" aria-label="Placeholder content notice">
+              <span>Scaffold record</span>
+              <p>
+                This page establishes the permanent content route and article structure. Claims,
+                measurements, media, and conclusions remain unpublished until verified source
+                material is added.
+              </p>
+            </aside>
+          )}
+          <div class="prose content-article">
+            <slot />
+          </div>
+        </div>
+
+        <aside class="detail-sidebar">
+          <div class="sidebar-panel">
+            <p class="mono-label">Record links</p>
+            {links.length > 0 ? (
+              <ul class="record-links">
+                {links.map((link) => (
+                  <li><a href={link.href} rel="noreferrer">{link.label}</a></li>
+                ))}
+              </ul>
+            ) : (
+              <p class="sidebar-empty">No public source or artifact link has been attached yet.</p>
+            )}
+          </div>
+          <div class="sidebar-panel">
+            <p class="mono-label">Content integrity</p>
+            <p class="sidebar-empty">
+              The immutable collection ID remains stable if this page title or public slug changes.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <slot name="after-content" />
+  </article>
+</BaseLayout>

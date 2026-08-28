@@ -1,0 +1,13 @@
+here are links relevant to models : 
+https://huggingface.co/meadbee
+https://github.com/jordanmckin/Yuna_130m_Colab
+
+
+here are links to my local files if you would like an overview:
+CLI ~ D:\Yuna CLI Director
+diffusion model ~ D:\Yshtola Diffusion
+llm model ~ D:\Yuna GPT
+synthetic daTA ~ D:\Shinra Synthetic Data
+music creator harness ~ D:\LuLu music
+tts harness ~ D:\ROSARIA_TTS_GPT_SoVITS
+--tts audio youtube extractor for vocals D:\Lightning Audio Cutter

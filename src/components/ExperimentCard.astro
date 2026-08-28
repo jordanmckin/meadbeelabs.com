@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getContentPath } from '../lib/content';
+import CategoryMark from './CategoryMark.astro';
+import StatusBadge from './StatusBadge.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  experiment: CollectionEntry<'experiments'>;
+}
+
+const { experiment } = Astro.props;
+const { data } = experiment;
+const href = getContentPath('experiments', data.slug);
+const recordLabel = data.experimentNumber
+  ? `Experiment ${String(data.experimentNumber).padStart(3, '0')}`
+  : data.permanentId;
+---
+
+<article class="card" id={data.slug}>
+  <div class="card-topline">
+    <span class="content-id">{recordLabel}</span>
+    <StatusBadge status={data.status} />
+  </div>
+  <CategoryMark label={data.category} prefix="Experiment" />
+  <h3><a href={href}>{data.title}</a></h3>
+  <p class="card-description">{data.description}</p>
+  <div class="card-footer">
+    <TagList tags={data.tags.slice(0, 3)} />
+    <a class="card-link" href={href} aria-label={`View ${data.title}`}>Field note</a>
+  </div>
+</article>

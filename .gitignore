@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# generated output
+dist/
+.astro/
+
+# local tooling
+.npm-cache/
+.tooling-node/
+.wrangler/
+
+# environment and secrets
+.env
+.env.*
+!.env.example
+
+# editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# logs
+*.log
+npm-debug.log*

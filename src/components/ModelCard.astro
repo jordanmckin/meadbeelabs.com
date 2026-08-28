@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getContentPath } from '../lib/content';
+import CategoryMark from './CategoryMark.astro';
+import MetadataGrid from './MetadataGrid.astro';
+import StatusBadge from './StatusBadge.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  model: CollectionEntry<'models'>;
+}
+
+const { model } = Astro.props;
+const { data } = model;
+const href = getContentPath('models', data.slug);
+const specifications = [
+  { label: 'Parameters', value: data.parameters ?? 'Not published' },
+  { label: 'Tokenizer', value: data.tokenizer ?? 'Project specific' },
+  { label: 'Context', value: data.context ?? 'Not published' },
+  { label: 'Training', value: data.training ?? 'Research pipeline' },
+];
+---
+
+<article class="card model-card" id={data.slug}>
+  <div class="card-topline">
+    <span class="content-id">{data.permanentId}</span>
+    <StatusBadge status={data.status} />
+  </div>
+  <CategoryMark label={data.modelType} prefix="Model" />
+  <h3><a href={href}>{data.title}</a></h3>
+  <p class="card-description">{data.description}</p>
+  <MetadataGrid items={specifications} variant="compact" label={`${data.title} specifications`} />
+  <div class="card-footer">
+    <TagList tags={data.tags.slice(0, 3)} />
+    <a class="card-link" href={href} aria-label={`View ${data.title}`}>Model note</a>
+  </div>
+</article>

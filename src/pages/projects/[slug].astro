@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ProjectHeroVisual from '../../components/ProjectHeroVisual.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ContentDetailLayout from '../../layouts/ContentDetailLayout.astro';
+import {
+  assertUniqueContent,
+  formatContentDate,
+  getRecordLinks,
+  getRelatedEntries,
+} from '../../lib/content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  related: CollectionEntry<'projects'>[];
+}
+
+export async function getStaticPaths() {
+  const projects = assertUniqueContent(await getCollection('projects'), 'project').filter(
+    ({ data }) => data.slug !== 'cli-harness',
+  );
+
+  return projects.map((project) => ({
+    params: { slug: project.data.slug },
+    props: {
+      project,
+      related: getRelatedEntries(project, projects, 2),
+    },
+  }));
+}
+
+const { project, related } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const recordLinks = getRecordLinks(data.links);
+const metadata = [
+  { label: 'Status', value: data.status.replaceAll('-', ' ') },
+  { label: 'Category', value: data.category.replaceAll('-', ' ') },
+  { label: 'Published', value: formatContentDate(data.published) },
+  { label: 'Updated', value: formatContentDate(data.updated) },
+];
+---
+
+<ContentDetailLayout
+  collectionLabel="Projects"
+  collectionPath="/projects/"
+  eyebrow={`Project record / ${data.category.replaceAll('-', ' ')}`}
+  title={data.title}
+  description={data.description}
+  permanentId={data.permanentId}
+  status={data.status}
+  placeholder={data.placeholder}
+  tags={data.tags}
+  metadata={metadata}
+  links={recordLinks}
+  image={data.thumbnail}
+>
+  <ProjectHeroVisual
+    slot="hero-visual"
+    title={data.title}
+    category={data.category}
+    workflow={data.workflow}
+  />
+  <Content />
+
+  <Fragment slot="after-content">
+    {related.length > 0 && (
+      <section class="section compact rule-top" aria-labelledby="related-projects-title">
+        <div class="container">
+          <SectionHeading
+            headingId="related-projects-title"
+            index="Related / Project collection"
+            title="Continue through the systems index"
+            description="Related records are selected from shared category and tag metadata."
+          />
+          <div class="card-grid two">
+            {related.map((entry) => <ProjectCard project={entry} />)}
+          </div>
+        </div>
+      </section>
+    )}
+  </Fragment>
+</ContentDetailLayout>

@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import ModelCard from '../../components/ModelCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import StatePanel from '../../components/StatePanel.astro';
+import TaxonomySummary from '../../components/TaxonomySummary.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { summarizeTaxonomy } from '../../lib/content';
+
+const models = (await getCollection('models')).sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured),
+);
+const taxonomy = summarizeTaxonomy(models.map(({ data }) => data.modelType));
+---
+
+<BaseLayout
+  title="Models"
+  description="Language- and diffusion-model research from Meadbee Labs, with an emphasis on tokenizer, dataset, architecture, training, evaluation, and lessons learned."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">Model registry / Training records</p>
+        <h1 class="page-title">Models</h1>
+        <p class="page-lede">
+          Model work presented as an engineering process: architecture and tokenizer choices,
+          data preparation, training progression, evaluation, failures, and outputs.
+        </p>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">Initial registry</span>
+        <p>
+          Language and diffusion models are the starting categories, not permanent limits. The
+          schema can accommodate future audio, video, and multimodal work.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="model-index-title">
+    <div class="container">
+      <SectionHeading
+        headingId="model-index-title"
+        index="01 / Model index"
+        title="Built from the training pipeline up"
+        description="Model cards expose useful technical metadata while leaving uncertain or unpublished fields visibly unset."
+      />
+      <TaxonomySummary items={taxonomy} label="Model types" />
+      {models.length > 0 ? (
+        <div class="card-grid two">
+          {models.map((model) => <ModelCard model={model} />)}
+        </div>
+      ) : (
+        <StatePanel
+          code="MODEL-REGISTRY / EMPTY"
+          title="No model records yet"
+          description="Add a model record and the next build will generate its technical profile and registry card."
+          actionHref="/experiments/"
+          actionLabel="Browse training notes"
+        />
+      )}
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="training-story-title">
+    <div class="container">
+      <SectionHeading
+        headingId="training-story-title"
+        index="02 / Language-model record"
+        title="The whole training story belongs here"
+        description="YunaGPT is framed as a designed and trained pipeline—not merely a model artifact downloaded from elsewhere."
+      />
+      <div class="training-track" role="list" aria-label="Language model development stages">
+        <div class="training-step" role="listitem"><span>01</span><strong>Architecture</strong></div>
+        <div class="training-step" role="listitem"><span>02</span><strong>Tokenizer</strong></div>
+        <div class="training-step" role="listitem"><span>03</span><strong>Data</strong></div>
+        <div class="training-step" role="listitem"><span>04</span><strong>Pretraining</strong></div>
+        <div class="training-step" role="listitem"><span>05</span><strong>Instruction tuning</strong></div>
+        <div class="training-step" role="listitem"><span>06</span><strong>Preference studies</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="diffusion-story-title">
+    <div class="container split-layout">
+      <div>
+        <p class="section-index">03 / Diffusion record</p>
+        <h2 id="diffusion-story-title">Training should be visible</h2>
+        <p class="page-lede">
+          Diffusion pages will prioritize generated output while keeping the dataset, training
+          configuration, checkpoint progression, and evaluation beside the images.
+        </p>
+      </div>
+      <div class="media-placeholder-grid">
+        <div class="media-placeholder small" role="img" aria-label="Placeholder for early diffusion checkpoint output">
+          Early checkpoint / pending
+        </div>
+        <div class="media-placeholder small" role="img" aria-label="Placeholder for later diffusion checkpoint output">
+          Later checkpoint / pending
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

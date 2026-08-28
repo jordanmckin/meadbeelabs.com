@@ -1,0 +1,25 @@
+---
+interface TaxonomyItem {
+  label: string;
+  count: number;
+}
+
+interface Props {
+  items: TaxonomyItem[];
+  label?: string;
+}
+
+const { items, label = 'Collection taxonomy' } = Astro.props;
+---
+
+<div class="taxonomy-summary" aria-label={label}>
+  <span class="taxonomy-summary-label">Index classes</span>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <span>{item.label.replaceAll('-', ' ')}</span>
+        <strong>{String(item.count).padStart(2, '0')}</strong>
+      </li>
+    ))}
+  </ul>
+</div>

@@ -1,0 +1,172 @@
+---
+import { getCollection } from 'astro:content';
+import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
+import ExperimentCard from '../components/ExperimentCard.astro';
+import ModelCard from '../components/ModelCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  getFeaturedModels,
+  getFeaturedProjects,
+  getLatestExperiments,
+} from '../lib/content';
+
+const [projects, experiments, models, releases] = await Promise.all([
+  getFeaturedProjects(3),
+  getLatestExperiments(3),
+  getFeaturedModels(2),
+  getCollection('releases'),
+]);
+const [release] = releases;
+---
+
+<BaseLayout>
+  <section class="home-hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Personal AI / Software Laboratory</p>
+        <h1 class="hero-title">Meadbee <span>Labs</span></h1>
+        <p class="hero-lede">
+          Building AI systems from the model up. Autonomous agents, models trained from
+          scratch, generative tools, developer systems, and experiments with local AI.
+        </p>
+        <div class="button-row">
+          <a class="button primary" href="/cli/">Enter the CLI Harness</a>
+          <a class="button" href="/projects/">Explore projects</a>
+          <a class="button muted" href="/experiments/">Latest experiments</a>
+        </div>
+      </div>
+
+      <aside class="lab-panel" aria-label="Meadbee Labs system overview">
+        <div class="panel-topline">
+          <span>LAB/SYSTEM-OVERVIEW</span>
+          <span class="status-light">Online</span>
+        </div>
+        <div class="signal-field" aria-hidden="true">
+          <span class="signal-core">MBL</span>
+          <span class="signal-node"></span>
+          <span class="signal-node"></span>
+          <span class="signal-node"></span>
+          <span class="signal-node"></span>
+        </div>
+        <div class="readout-grid">
+          <div class="readout"><strong>LOCAL</strong><span>Compute</span></div>
+          <div class="readout"><strong>STATIC</strong><span>Site mode</span></div>
+          <div class="readout"><strong>MDX</strong><span>Lab notes</span></div>
+        </div>
+        <div class="panel-footer">
+          <span>Foundation build</span>
+          <span>Stages 01—02</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="system-strip" aria-label="Site principles">
+    <div class="container">
+      <span>Local first</span>
+      <span>Content driven</span>
+      <span>Static by default</span>
+      <span>Open notebook</span>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="flagship-title">
+    <div class="container">
+      <div class="flagship-panel">
+        <div>
+          <p class="section-index">01 / Flagship system</p>
+          <h2 id="flagship-title">Meadbee AI Harness</h2>
+          <p>
+            A local-first autonomous development environment centered on director and worker
+            agents, extensible plugins, tool use, and long-running Wiggum loops.
+          </p>
+          <p>
+            The harness supports software work and model-driven creative workflows including
+            Blender, image generation, and visual-novel planning.
+          </p>
+          <div class="button-row">
+            <a class="button primary" href="/cli/">Explore the architecture</a>
+            <a class="button muted" href="/downloads/#cli-harness">Release channel</a>
+          </div>
+        </div>
+        <ArchitectureDiagram />
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="projects-title">
+    <div class="container">
+      <SectionHeading
+        headingId="projects-title"
+        index="02 / Featured projects"
+        title="Systems with room to grow"
+        description="Substantial tools and ongoing systems live here. These cards are generated from the project collection, so new work starts as a Markdown or MDX record."
+      />
+      <div class="card-grid">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+      <div class="button-row">
+        <a class="button muted" href="/projects/">View all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="experiments-title">
+    <div class="container">
+      <SectionHeading
+        headingId="experiments-title"
+        index="03 / Lab notebook"
+        title="Experiments & tests"
+        description="Benchmarks, failed attempts, autonomous runs, model-training observations, and visual trials belong here—even when they are not polished products."
+      />
+      <div class="notebook-banner">
+        <span>Collection status</span>
+        <span>Representative entries are scaffolded; results remain explicitly unpublished.</span>
+        <span>MD + MDX ready</span>
+      </div>
+      <div class="card-grid">
+        {experiments.map((experiment) => <ExperimentCard experiment={experiment} />)}
+      </div>
+      <div class="button-row">
+        <a class="button muted" href="/experiments/">Open the notebook</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="models-title">
+    <div class="container">
+      <SectionHeading
+        headingId="models-title"
+        index="04 / Model work"
+        title="Training, not just inference"
+        description="The model section is designed around the engineering process: tokenizer and dataset work, architecture experiments, training progression, outputs, failures, and lessons learned."
+      />
+      <div class="card-grid two">
+        {models.map((model) => <ModelCard model={model} />)}
+      </div>
+      <div class="button-row">
+        <a class="button muted" href="/models/">Explore model research</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact rule-top" aria-labelledby="release-title">
+    <div class="container">
+      <div class="release-bar">
+        <div class="release-icon" aria-hidden="true">↓</div>
+        <div>
+          <div class="card-topline">
+            <span class="content-id">Recent release channel</span>
+            {release && <StatusBadge status={release.data.status} />}
+          </div>
+          <h3 id="release-title">{release?.data.title ?? 'CLI Harness release channel'}</h3>
+          <p>{release?.data.description ?? 'Release metadata will appear here when available.'}</p>
+        </div>
+        <a class="button muted" href="/downloads/">Browse downloads</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

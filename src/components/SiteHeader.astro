@@ -1,0 +1,56 @@
+---
+import BrandMark from './BrandMark.astro';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/cli/', label: 'CLI Harness' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/experiments/', label: 'Experiments & Tests' },
+  { href: '/models/', label: 'Models' },
+  { href: '/downloads/', label: 'Downloads' },
+  { href: '/about/', label: 'About' },
+];
+
+const currentPath = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Meadbee Labs home">
+      <BrandMark />
+      <span class="brand-copy">
+        <span class="brand-name">MEADBEE LABS</span>
+        <span class="brand-meta">Personal AI / Software Laboratory</span>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <ul>
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <details class="mobile-menu">
+      <summary aria-label="Open navigation menu">Menu</summary>
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <ul>
+          {navItems.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

@@ -1,0 +1,89 @@
+---
+import SectionHeading from '../../components/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Downloads"
+  description="Release channels, source links, model hubs, plugins, documentation, and downloadable artifacts from Meadbee Labs."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">Artifact repository / External releases</p>
+        <h1 class="page-title">Downloads</h1>
+        <p class="page-lede">
+          A structured index for applications, plugins, source, model artifacts, and
+          documentation—without storing heavyweight releases inside the website repository.
+        </p>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">Release policy</span>
+        <p>
+          Pending labels are intentional. Public download URLs will be attached only when the
+          corresponding artifact has a verified release location.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="download-index-title">
+    <div class="container">
+      <SectionHeading
+        headingId="download-index-title"
+        index="01 / Artifact tree"
+        title="Browse by system, then artifact"
+        description="Large applications belong in GitHub Releases, models on Hugging Face, and future large media in object storage. This page acts as the durable directory."
+      />
+
+      <div class="download-shell">
+        <div class="download-shell-header">
+          <span>MEADBEE://DOWNLOADS</span>
+          <span>Static index · external artifacts</span>
+        </div>
+        <div class="tree">
+          <details id="cli-harness" open>
+            <summary>AI Harness</summary>
+            <details open>
+              <summary>Windows</summary>
+              <div class="tree-leaf"><span>Current release</span><span>Pending</span></div>
+              <div class="tree-leaf"><span>Previous releases</span><span>None indexed</span></div>
+            </details>
+            <details open>
+              <summary>Plugins</summary>
+              <div class="tree-leaf"><span>Blender</span><span>Pending</span></div>
+              <div class="tree-leaf"><span>Ren'Py</span><span>Pending</span></div>
+              <div class="tree-leaf"><span>Image generation</span><span>Pending</span></div>
+            </details>
+            <div class="tree-leaf"><span>Documentation</span><a href="/cli/">Overview</a></div>
+          </details>
+
+          <details open>
+            <summary>Synthetic Data Designer</summary>
+            <div class="tree-leaf"><span>Windows application</span><span>Pending</span></div>
+            <div class="tree-leaf"><span>Source</span><span>Link pending</span></div>
+            <div class="tree-leaf"><span>Templates</span><span>Pending</span></div>
+          </details>
+
+          <details open>
+            <summary>Models</summary>
+            <div class="tree-leaf"><span>YunaGPT model hub</span><a href="https://huggingface.co/meadbee" rel="noreferrer">Hugging Face</a></div>
+            <div class="tree-leaf"><span>Yuna training notebook</span><a href="https://github.com/jordanmckin/Yuna_130m_Colab" rel="noreferrer">GitHub</a></div>
+            <div class="tree-leaf"><span>Diffusion research</span><a href="https://huggingface.co/meadbee" rel="noreferrer">Hugging Face</a></div>
+          </details>
+
+          <details>
+            <summary>Browser Tools</summary>
+            <div class="tree-leaf"><span>AO3 themes</span><span>Pending</span></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="download-note" aria-label="Artifact storage policy">
+        <div><strong>Applications & source</strong><span>GitHub Releases and repositories</span></div>
+        <div><strong>Model artifacts</strong><span>Hugging Face repositories</span></div>
+        <div><strong>Large future media</strong><span>Cloudflare R2 when required</span></div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

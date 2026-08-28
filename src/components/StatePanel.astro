@@ -1,0 +1,34 @@
+---
+interface Props {
+  kind?: 'empty' | 'error';
+  code: string;
+  title: string;
+  description: string;
+  actionHref?: string;
+  actionLabel?: string;
+  headingLevel?: 'h1' | 'h2';
+}
+
+const {
+  kind = 'empty',
+  code,
+  title,
+  description,
+  actionHref,
+  actionLabel,
+  headingLevel = 'h2',
+} = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class:list={['state-panel', kind]}>
+  <div class="state-glyph" aria-hidden="true">
+    <span>{kind === 'error' ? '×' : '◇'}</span>
+  </div>
+  <div class="state-copy">
+    <p class="mono-label">{code}</p>
+    <Heading>{title}</Heading>
+    <p>{description}</p>
+    {actionHref && actionLabel && <a class="button" href={actionHref}>{actionLabel}</a>}
+  </div>
+</div>

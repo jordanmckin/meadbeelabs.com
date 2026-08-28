@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import StatePanel from '../../components/StatePanel.astro';
+import TaxonomySummary from '../../components/TaxonomySummary.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { newestFirst, summarizeTaxonomy } from '../../lib/content';
+
+const experiments = (await getCollection('experiments')).sort(newestFirst);
+
+const categories = summarizeTaxonomy(experiments.map(({ data }) => data.category));
+---
+
+<BaseLayout
+  title="Experiments & Tests"
+  description="The Meadbee Labs technical notebook: autonomous-agent runs, model-training observations, benchmarks, visual tests, mini-projects, and failed experiments."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">Technical notebook / Field records</p>
+        <h1 class="page-title">Experiments & Tests</h1>
+        <p class="page-lede">
+          A home for useful technical work that is too exploratory, too small, or too honest to
+          be packaged as a polished project.
+        </p>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">Taxonomy / evolving</span>
+        <p>
+          Categories and tags live in content metadata so the notebook can evolve without
+          turning every new topic into permanent navigation.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="notebook-index-title">
+    <div class="container">
+      <SectionHeading
+        headingId="notebook-index-title"
+        index="01 / Record index"
+        title="Open lab notes"
+        description="These initial records establish the format. Placeholder entries do not claim completed tests, measurements, or conclusions."
+      />
+      <TaxonomySummary items={categories} label="Experiment categories" />
+      <div class="notebook-banner">
+        <span>Active categories</span>
+        <span>{categories.map(({ label }) => label).join(' · ')}</span>
+        <span>{experiments.length} scaffolded records</span>
+      </div>
+      {experiments.length > 0 ? (
+        <div class="card-grid">
+          {experiments.map((experiment) => <ExperimentCard experiment={experiment} />)}
+        </div>
+      ) : (
+        <StatePanel
+          code="LAB-NOTEBOOK / EMPTY"
+          title="No experiment records yet"
+          description="Add a field-note Markdown or MDX record and the next build will generate its card and permanent route."
+          actionHref="/projects/"
+          actionLabel="Browse projects"
+        />
+      )}
+    </div>
+  </section>
+
+  <section class="section compact rule-top" aria-labelledby="record-format-title">
+    <div class="container split-layout">
+      <div>
+        <p class="section-index">02 / Record format</p>
+        <h2 id="record-format-title">Evidence before polish</h2>
+        <p class="page-lede">
+          A future experiment page can combine a readable technical article with structured run
+          metadata and reusable MDX components.
+        </p>
+      </div>
+      <div class="feature-grid two">
+        <article class="feature">
+          <span class="feature-number">DATA</span>
+          <h3>Run context</h3>
+          <p>Model, configuration, duration, prompts, hardware notes, and permanent experiment ID.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">MEDIA</span>
+          <h3>Outputs</h3>
+          <p>Videos, galleries, image comparisons, code, artifacts, and model outputs.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">RESULT</span>
+          <h3>Observations</h3>
+          <p>What happened, what failed, what changed, and which conclusions remain uncertain.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-number">NEXT</span>
+          <h3>Follow-up</h3>
+          <p>Reproducible next tests and links to the related project, model, or Wiggum run.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

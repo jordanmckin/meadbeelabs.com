@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+  prefix?: string;
+}
+
+const { label, prefix = 'Class' } = Astro.props;
+const displayLabel = label.replaceAll('-', ' ');
+---
+
+<span class="category-mark">
+  <span class="category-prefix">{prefix}</span>
+  <span>{displayLabel}</span>
+</span>

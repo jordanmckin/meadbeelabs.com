@@ -1,0 +1,84 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ContentDetailLayout from '../../layouts/ContentDetailLayout.astro';
+import {
+  assertUniqueContent,
+  formatContentDate,
+  getRecordLinks,
+  getRelatedEntries,
+  newestFirst,
+} from '../../lib/content';
+
+interface Props {
+  experiment: CollectionEntry<'experiments'>;
+  related: CollectionEntry<'experiments'>[];
+}
+
+export async function getStaticPaths() {
+  const experiments = assertUniqueContent(
+    await getCollection('experiments'),
+    'experiment',
+  ).sort(newestFirst);
+
+  return experiments.map((experiment) => ({
+    params: { slug: experiment.data.slug },
+    props: {
+      experiment,
+      related: getRelatedEntries(experiment, experiments, 2),
+    },
+  }));
+}
+
+const { experiment, related } = Astro.props;
+const { data } = experiment;
+const { Content } = await render(experiment);
+const recordLinks = getRecordLinks(data.links);
+const recordLabel = data.experimentNumber
+  ? `Experiment ${String(data.experimentNumber).padStart(3, '0')}`
+  : 'Experiment record';
+const metadata = [
+  { label: 'Status', value: data.status.replaceAll('-', ' ') },
+  { label: 'Category', value: data.category.replaceAll('-', ' ') },
+  { label: 'Published', value: formatContentDate(data.published) },
+  { label: 'Model', value: data.model ?? 'Not specified' },
+  { label: 'Duration', value: data.duration ?? 'Not published' },
+];
+---
+
+<ContentDetailLayout
+  collectionLabel="Experiments & Tests"
+  collectionPath="/experiments/"
+  eyebrow={`${recordLabel} / ${data.category.replaceAll('-', ' ')}`}
+  title={data.title}
+  description={data.description}
+  permanentId={data.permanentId}
+  status={data.status}
+  placeholder={data.placeholder}
+  tags={data.tags}
+  metadata={metadata}
+  links={recordLinks}
+  image={data.thumbnail}
+>
+  <Content />
+
+  <Fragment slot="after-content">
+    {related.length > 0 && (
+      <section class="section compact rule-top" aria-labelledby="related-experiments-title">
+        <div class="container">
+          <SectionHeading
+            headingId="related-experiments-title"
+            index="Related / Lab notebook"
+            title="Continue through the field notes"
+            description="Related records are selected from shared category and tag metadata."
+          />
+          <div class="card-grid two">
+            {related.map((entry) => <ExperimentCard experiment={entry} />)}
+          </div>
+        </div>
+      </section>
+    )}
+  </Fragment>
+</ContentDetailLayout>

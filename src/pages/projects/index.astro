@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import StatePanel from '../../components/StatePanel.astro';
+import TaxonomySummary from '../../components/TaxonomySummary.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { summarizeTaxonomy } from '../../lib/content';
+
+const projects = (await getCollection('projects'))
+  .filter(({ data }) => data.slug !== 'cli-harness')
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+const taxonomy = summarizeTaxonomy(projects.map(({ data }) => data.category));
+---
+
+<BaseLayout
+  title="Projects"
+  description="Substantial AI systems, developer tools, generative software, and ongoing project work from Meadbee Labs."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">System index / Substantial work</p>
+        <h1 class="page-title">Projects</h1>
+        <p class="page-lede">
+          Finished and ongoing systems with enough scope to deserve a durable project record.
+          Smaller tests and exploratory work remain in the lab notebook.
+        </p>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">Flagship route</span>
+        <p>
+          The CLI Harness has its own top-level section and remains immediately accessible from
+          the primary navigation.
+        </p>
+        <a class="button" href="/cli/">Open CLI Harness</a>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="project-index-title">
+    <div class="container">
+      <SectionHeading
+        headingId="project-index-title"
+        index="01 / Project collection"
+        title="Tools, systems, and ongoing builds"
+        description="The entries below come from typed Markdown records. Representative briefs are clearly marked in their source content until verified histories and media are available."
+      />
+      <TaxonomySummary items={taxonomy} label="Project categories" />
+      {projects.length > 0 ? (
+        <div class="card-grid">
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      ) : (
+        <StatePanel
+          code="PROJECT-INDEX / EMPTY"
+          title="No project records yet"
+          description="Create a project Markdown or MDX record and the next build will add it here automatically."
+          actionHref="/experiments/"
+          actionLabel="Browse experiments"
+        />
+      )}
+    </div>
+  </section>
+
+  <section class="section compact rule-top" aria-labelledby="taxonomy-title">
+    <div class="container">
+      <div class="collection-intro">
+        <div>
+          <p class="section-index">02 / Editorial boundary</p>
+          <h2 id="taxonomy-title">Project or experiment?</h2>
+        </div>
+        <p>The distinction keeps the project index useful without hiding smaller technical work.</p>
+      </div>
+      <div class="taxonomy-note">
+        <div>
+          <h3>Projects</h3>
+          <p>Substantial software, tools, or systems presented as maintained, finished, or meaningfully ongoing work.</p>
+        </div>
+        <div>
+          <h3>Experiments & tests</h3>
+          <p>Benchmarks, research notes, training observations, autonomous outputs, mini-projects, and failed attempts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

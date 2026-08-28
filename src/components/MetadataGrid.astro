@@ -1,0 +1,23 @@
+---
+interface MetadataItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  items: MetadataItem[];
+  variant?: 'record' | 'compact';
+  label?: string;
+}
+
+const { items, variant = 'record', label = 'Metadata' } = Astro.props;
+---
+
+<dl class:list={['metadata-grid', variant]} aria-label={label}>
+  {items.map((item) => (
+    <div>
+      <dt>{item.label}</dt>
+      <dd>{item.value}</dd>
+    </div>
+  ))}
+</dl>

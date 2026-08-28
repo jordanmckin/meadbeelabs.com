@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatePanel from '../components/StatePanel.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <section class="state-page">
+    <div class="narrow">
+      <StatePanel
+        kind="error"
+        code="ERROR 404 / UNMAPPED RECORD"
+        title="Signal lost"
+        description="The requested page is not in the current lab index. It may have moved, or it may not have been published yet."
+        actionHref="/"
+        actionLabel="Return home"
+        headingLevel="h1"
+      />
+      <nav class="state-secondary-links" aria-label="Suggested pages">
+        <a href="/projects/">Projects</a>
+        <a href="/experiments/">Experiments & Tests</a>
+        <a href="/models/">Models</a>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import BrandMark from './BrandMark.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand" href="/" aria-label="Meadbee Labs home">
+        <BrandMark />
+        <span class="brand-name">MEADBEE LABS</span>
+      </a>
+      <p class="footer-statement">
+        A personal laboratory for AI systems, autonomous agents, models, generative tools,
+        and the experiments behind them.
+      </p>
+    </div>
+    <div class="footer-meta">
+      <ul class="footer-links" aria-label="External links">
+        <li><a href="https://github.com/jordanmckin" rel="me noreferrer">GitHub</a></li>
+        <li><a href="https://huggingface.co/meadbee" rel="me noreferrer">Hugging Face</a></li>
+        <li><a href="/about/">About the lab</a></li>
+      </ul>
+      <p class="copyright">© {year} Meadbee Labs · Built with Astro · Static by default</p>
+    </div>
+  </div>
+</footer>

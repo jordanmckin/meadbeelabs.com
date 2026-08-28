@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getContentPath } from '../lib/content';
+import CategoryMark from './CategoryMark.astro';
+import StatusBadge from './StatusBadge.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const href = getContentPath('projects', data.slug);
+---
+
+<article class="card" id={data.slug}>
+  <div class="card-topline">
+    <span class="content-id">{data.permanentId}</span>
+    <StatusBadge status={data.status} />
+  </div>
+  <CategoryMark label={data.category} prefix="Project" />
+  <h3><a href={href}>{data.title}</a></h3>
+  <p class="card-description">{data.description}</p>
+  <div class="card-footer">
+    <TagList tags={data.tags.slice(0, 3)} />
+    <a class="card-link" href={href} aria-label={`View ${data.title}`}>Overview</a>
+  </div>
+</article>

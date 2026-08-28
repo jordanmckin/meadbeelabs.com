@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import ModelCard from '../../components/ModelCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ContentDetailLayout from '../../layouts/ContentDetailLayout.astro';
+import {
+  assertUniqueContent,
+  formatContentDate,
+  getRecordLinks,
+  getRelatedEntries,
+} from '../../lib/content';
+
+interface Props {
+  model: CollectionEntry<'models'>;
+  related: CollectionEntry<'models'>[];
+}
+
+export async function getStaticPaths() {
+  const models = assertUniqueContent(await getCollection('models'), 'model');
+
+  return models.map((model) => ({
+    params: { slug: model.data.slug },
+    props: {
+      model,
+      related: getRelatedEntries(model, models, 2),
+    },
+  }));
+}
+
+const { model, related } = Astro.props;
+const { data } = model;
+const { Content } = await render(model);
+const recordLinks = getRecordLinks(data.links);
+const metadata = [
+  { label: 'Type', value: data.modelType },
+  { label: 'Status', value: data.status.replaceAll('-', ' ') },
+  { label: 'Parameters', value: data.parameters ?? 'Not published' },
+  { label: 'Context', value: data.context ?? 'Not published' },
+  { label: 'Tokenizer', value: data.tokenizer ?? 'Not published' },
+  { label: 'Training', value: data.training ?? 'Research pipeline' },
+  { label: 'Published', value: formatContentDate(data.published) },
+];
+---
+
+<ContentDetailLayout
+  collectionLabel="Models"
+  collectionPath="/models/"
+  eyebrow={`Model record / ${data.modelType}`}
+  title={data.title}
+  description={data.description}
+  permanentId={data.permanentId}
+  status={data.status}
+  placeholder={data.placeholder}
+  tags={data.tags}
+  metadata={metadata}
+  links={recordLinks}
+  image={data.thumbnail}
+>
+  <Content />
+
+  <Fragment slot="after-content">
+    {related.length > 0 && (
+      <section class="section compact rule-top" aria-labelledby="related-models-title">
+        <div class="container">
+          <SectionHeading
+            headingId="related-models-title"
+            index="Related / Model registry"
+            title="Continue through the training records"
+            description="Related records are selected from shared model type and tag metadata."
+          />
+          <div class="card-grid two">
+            {related.map((entry) => <ModelCard model={entry} />)}
+          </div>
+        </div>
+      </section>
+    )}
+  </Fragment>
+</ContentDetailLayout>

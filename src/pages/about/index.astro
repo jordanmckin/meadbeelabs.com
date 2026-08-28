@@ -1,0 +1,92 @@
+---
+import SectionHeading from '../../components/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="About Meadbee Labs, a personal AI and software laboratory focused on local AI, model training, autonomous agents, and generative tooling."
+>
+  <header class="page-hero">
+    <div class="container page-hero-grid">
+      <div>
+        <p class="eyebrow">Lab profile / Working interests</p>
+        <h1 class="page-title">About the Lab</h1>
+        <p class="page-lede">
+          Meadbee Labs is a personal AI and software laboratory: part developer portfolio, part
+          technical notebook, part experiment archive, and part project repository.
+        </p>
+      </div>
+      <aside class="page-aside">
+        <span class="mono-label">Profile boundary</span>
+        <p>
+          This page stays focused on supplied technical interests. Biographical details and
+          contact information can be added later without inventing them now.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-copy">
+        <p class="section-index">01 / Purpose</p>
+        <h2 id="about-title">A durable home for work in progress</h2>
+        <p>
+          The lab exists to document substantial systems and the smaller experiments that make
+          those systems possible. It is designed to show how things are built—not only the final
+          screenshots or release files.
+        </p>
+        <p>
+          That includes architecture experiments, tokenizer and dataset work, model training,
+          autonomous-agent runs, generative media workflows, local developer systems, and the
+          failed tests that still produced useful lessons.
+        </p>
+        <p>
+          The website itself follows the same principle: lightweight, content-driven, and easy
+          to extend through Markdown or MDX rather than a bespoke publishing backend.
+        </p>
+      </div>
+
+      <div>
+        <p class="section-index">02 / Technical interests</p>
+        <ul class="interest-list">
+          <li>Software development</li>
+          <li>Local AI experimentation</li>
+          <li>Language-model training</li>
+          <li>Diffusion-model research</li>
+          <li>Autonomous-agent systems</li>
+          <li>Generative tools</li>
+          <li>Creative development workflows</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact rule-top" aria-labelledby="links-title">
+    <div class="container">
+      <SectionHeading
+        headingId="links-title"
+        index="03 / Public links"
+        title="Follow the source work"
+        description="These are the public locations supplied for the initial build. Additional project repositories and contact routes can be attached later."
+      />
+      <div class="card-grid two">
+        <div class="link-panel">
+          <h2>Development</h2>
+          <ul>
+            <li><a href="https://github.com/jordanmckin" rel="me noreferrer">GitHub profile</a></li>
+            <li><a href="https://github.com/jordanmckin/Yuna_130m_Colab" rel="noreferrer">Yuna training repository</a></li>
+          </ul>
+        </div>
+        <div class="link-panel">
+          <h2>Models</h2>
+          <ul>
+            <li><a href="https://huggingface.co/meadbee" rel="me noreferrer">Meadbee on Hugging Face</a></li>
+            <li><a href="/models/">Model research index</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

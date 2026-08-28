@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Meadbee Labs</title>
+  <desc id="desc">AI systems, autonomous agents, models, generative tools, and experiments.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#070711"/>
+      <stop offset="1" stop-color="#17122d"/>
+    </linearGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0v42" fill="none" stroke="#a983ff" stroke-opacity=".08"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <path d="M938 104 1080 186v164l-142 82-142-82V186Z" fill="none" stroke="#a983ff" stroke-width="8"/>
+  <circle cx="938" cy="268" r="38" fill="#76d9ff"/>
+  <path d="M938 104v126M796 186l107 62M1080 186l-107 62M796 350l107-62M1080 350l-107-62M938 432V306" stroke="#a983ff" stroke-width="6" stroke-linecap="round"/>
+  <text x="92" y="148" fill="#b99cff" font-family="ui-monospace, monospace" font-size="24" letter-spacing="5">PERSONAL AI / SOFTWARE LAB</text>
+  <text x="88" y="288" fill="#f8f5ff" font-family="Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-3">MEADBEE LABS</text>
+  <text x="94" y="374" fill="#b8b1c9" font-family="Arial, sans-serif" font-size="33">Building AI systems from the model up.</text>
+  <path d="M94 448h590" stroke="#78d9ff" stroke-width="4"/>
+  <text x="94" y="504" fill="#e6ddf5" font-family="ui-monospace, monospace" font-size="23">AGENTS · MODELS · GENERATIVE TOOLS · EXPERIMENTS</text>
+</svg>
